@@ -54,7 +54,7 @@ plt.show()
 
 
 
-threshold_value = 70 
+threshold_value = 50
 edge_binary = edge_mag_clean_image > threshold_value
 
 
