@@ -6,42 +6,40 @@ import numpy as np
 from matplotlib import pyplot as plt
 from scipy.signal import convolve2d
 
-def load_image(path):
-  image = Image.open(path)
-  image = np.array(image)
-  return image
+
+image = Image.open(path)
+image = np.array(image)
+
 print(load_image("/content/Screenshot 2025-11-21 143400.png"))
 
 
-def edge_detection(image_array):
-
-  grayscale_image = np.mean(image_array, axis=2)
 
 
-  kernelY = np.array([
-      [1, 2, 1],
-      [0, 0, 0],
-      [-1, -2, -1]
-  ])
+grayscale_image = np.mean(image_array, axis=2)
 
 
-  kernelX = np.array([
-      [-1, 0, 1],
-      [-2, 0, 2],
-      [-1, 0, 1]
-  ])
-
-  edgeY = convolve2d(grayscale_image, kernelY, mode='same', boundary='fill', fillvalue=0)
-  edgeX = convolve2d(grayscale_image, kernelX, mode='same', boundary='fill', fillvalue=0)
-
-  edgeMAG = np.sqrt(edgeX**2 + edgeY**2)
-
-  return edgeMAG
+kernelY = np.array([
+     [1, 2, 1],
+     [0, 0, 0],
+     [-1, -2, -1]
+ ])
 
 
-plt.imshow(edge_detection(load_image("/content/Screenshot 2025-11-21 143400.png")),cmap="grey")
+kernelX = np.array([
+     [-1, 0, 1],
+     [-2, 0, 2],
+     [-1, 0, 1]
+ ])
+
+edgeY = convolve2d(grayscale_image, kernelY, mode='same', boundary='fill', fillvalue=0)
+edgeX = convolve2d(grayscale_image, kernelX, mode='same', boundary='fill', fillvalue=0)
+
+edgeMAG = np.sqrt(edgeX**2 + edgeY**2)
 
 
+
+
+clean_image = median(image, ball(3))
 edge_mag_clean_image = edge_detection(clean_image)
 plt.figure(figsize=(10, 6))
 plt.hist(edge_mag_clean_image.ravel(), bins=50, alpha=0.7)
